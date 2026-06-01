@@ -14,11 +14,39 @@
     --fg-dim: #a1a1a1;
     --fg-faint: #6b6b6b;
     --accent: #ffffff;
+    --accent-fg: #0a0a0a;
     --tag-bg: #161616;
+    --nav-bg: rgba(10,10,10,0.72);
+    --glow: rgba(255,255,255,0.06);
+    --glow-card: rgba(255,255,255,0.05);
+    --grad-from: #fff;
+    --grad-to: #888;
+    --cta-from: #131313;
+    --cta-to: #0c0c0c;
     --radius: 10px;
     --max: 1100px;
     --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     --mono: "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+  }
+
+  :root[data-theme="light"] {
+    --bg: #ffffff;
+    --bg-elev: #f7f7f8;
+    --border: #e6e6e8;
+    --border-hover: #cfcfd3;
+    --fg: #18181b;
+    --fg-dim: #52525b;
+    --fg-faint: #8a8a92;
+    --accent: #18181b;
+    --accent-fg: #ffffff;
+    --tag-bg: #f0f0f2;
+    --nav-bg: rgba(255,255,255,0.78);
+    --glow: rgba(0,0,0,0.04);
+    --glow-card: rgba(0,0,0,0.035);
+    --grad-from: #18181b;
+    --grad-to: #71717a;
+    --cta-from: #fafafa;
+    --cta-to: #f2f2f4;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -31,6 +59,7 @@
     font-family: var(--font);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
+    transition: background .25s, color .25s;
   }
 
   a { color: inherit; text-decoration: none; }
@@ -41,7 +70,7 @@
   nav {
     position: sticky; top: 0; z-index: 50;
     backdrop-filter: saturate(180%) blur(12px);
-    background: rgba(10,10,10,0.72);
+    background: var(--nav-bg);
     border-bottom: 1px solid var(--border);
   }
   .nav-inner {
@@ -51,14 +80,14 @@
   .brand { display: flex; align-items: center; gap: 10px; font-weight: 600; letter-spacing: -0.01em; }
   .brand .dot {
     width: 22px; height: 22px; border-radius: 6px;
-    background: linear-gradient(135deg, #fff 0%, #888 100%);
+    background: linear-gradient(135deg, var(--grad-from) 0%, var(--grad-to) 100%);
   }
   .nav-links { display: flex; align-items: center; gap: 28px; }
   .nav-links a { color: var(--fg-dim); font-size: 14px; transition: color .15s; }
   .nav-links a:hover { color: var(--fg); }
   .btn {
     display: inline-flex; align-items: center; gap: 8px;
-    background: var(--accent); color: #0a0a0a;
+    background: var(--accent); color: var(--accent-fg);
     font-size: 14px; font-weight: 600;
     padding: 8px 16px; border-radius: 8px;
     border: 1px solid var(--accent);
@@ -68,6 +97,17 @@
   .btn:active { transform: translateY(1px); }
   .btn.ghost { background: transparent; color: var(--fg); border-color: var(--border-hover); }
   .btn.ghost:hover { border-color: var(--fg-dim); opacity: 1; }
+  .theme-toggle {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 36px; height: 36px; border-radius: 8px;
+    background: var(--bg-elev); border: 1px solid var(--border);
+    color: var(--fg-dim); cursor: pointer; font-size: 16px; line-height: 1;
+    transition: color .15s, border-color .15s;
+  }
+  .theme-toggle:hover { color: var(--fg); border-color: var(--border-hover); }
+  .theme-toggle .moon { display: none; }
+  :root[data-theme="light"] .theme-toggle .sun { display: none; }
+  :root[data-theme="light"] .theme-toggle .moon { display: inline; }
   @media (max-width: 640px) { .nav-links a:not(.btn) { display: none; } }
 
   /* ---------- Hero ---------- */
@@ -81,7 +121,7 @@
     content: "";
     position: absolute; inset: 0;
     background:
-      radial-gradient(600px 300px at 50% -10%, rgba(255,255,255,0.06), transparent 70%);
+      radial-gradient(600px 300px at 50% -10%, var(--glow), transparent 70%);
     pointer-events: none;
   }
   .hero-grid {
@@ -108,7 +148,7 @@
     max-width: 760px;
   }
   h1 .grad {
-    background: linear-gradient(180deg, #fff 30%, #888 100%);
+    background: linear-gradient(180deg, var(--grad-from) 30%, var(--grad-to) 100%);
     -webkit-background-clip: text; background-clip: text; color: transparent;
   }
   .sub {
@@ -143,7 +183,7 @@
   }
   .card::after {
     content: ""; position: absolute; inset: 0;
-    background: radial-gradient(400px 200px at var(--mx,50%) 0%, rgba(255,255,255,0.05), transparent 60%);
+    background: radial-gradient(400px 200px at var(--mx,50%) 0%, var(--glow-card), transparent 60%);
     opacity: 0; transition: opacity .2s; pointer-events: none;
   }
   .card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
@@ -163,7 +203,7 @@
   /* ---------- CTA band ---------- */
   .cta-band {
     border: 1px solid var(--border); border-radius: 16px;
-    background: linear-gradient(180deg, #131313, #0c0c0c);
+    background: linear-gradient(180deg, var(--cta-from), var(--cta-to));
     padding: 56px 40px; text-align: center;
   }
   .cta-band h2 { font-size: 32px; letter-spacing: -0.02em; }
@@ -177,6 +217,14 @@
   .foot-links a { color: var(--fg-dim); font-size: 13px; transition: color .15s; }
   .foot-links a:hover { color: var(--fg); }
 </style>
+<script>
+  // set theme before paint to avoid flash; stored choice wins, else system pref
+  (function () {
+    var saved = localStorage.getItem('theme');
+    var theme = saved || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    document.documentElement.setAttribute('data-theme', theme);
+  })();
+</script>
 </head>
 <body>
 
@@ -186,6 +234,9 @@
     <div class="nav-links">
       <a href="#work">Work</a>
       <a href="#contact">Contact</a>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle color theme">
+        <span class="sun">☀</span><span class="moon">☾</span>
+      </button>
       <a href="#contact" class="btn">Get in touch</a>
     </div>
   </div>
@@ -215,28 +266,28 @@
         <span class="idx">01</span>
         <span class="arrow">↗</span>
         <h3>TraktApp</h3>
-        <p>A TV show tracker built on Trakt OAuth. Log watch history, manage your watchlist, and surface trending shows so you never lose your place.</p>
+        <p>A TV show tracker on Trakt OAuth. Gemini reads your watch history and watchlist to recommend what to watch next and write short, spoiler-free reasons for each pick.</p>
         <div class="tags"><span class="tag">Next.js</span><span class="tag">Trakt OAuth</span><span class="tag">Gemini</span><span class="tag">React 19</span></div>
       </a>
       <a class="card" href="https://storyvault.michaelsavastano.com/" target="_blank" rel="noopener">
         <span class="idx">02</span>
         <span class="arrow">↗</span>
         <h3>StoryVault</h3>
-        <p>A private reading room for short fiction. Paste a link and it sets the type — clean, paginated reader for the stories you mean to get to.</p>
+        <p>A private reading room for short fiction. Paste a link and Gemini scrapes the story, strips the clutter, and formats it into a clean, paginated reader.</p>
         <div class="tags"><span class="tag">Next.js</span><span class="tag">Firebase</span><span class="tag">Gemini</span><span class="tag">Tailwind</span></div>
       </a>
       <a class="card" href="https://feedback.michaelsavastano.com/" target="_blank" rel="noopener">
         <span class="idx">03</span>
         <span class="arrow">↗</span>
         <h3>Skill-Memory Agent</h3>
-        <p>A self-editing agent with three-tier markdown memory (system / active / archive). It rewrites its own skills each turn and isolates memory per user.</p>
+        <p>A self-editing agent with three-tier markdown memory (system / active / archive). Gemini decides what to remember, rewrites its own skill files each turn, and keeps memory isolated per user.</p>
         <div class="tags"><span class="tag">Python</span><span class="tag">FastAPI</span><span class="tag">Gemini</span><span class="tag">Agents</span></div>
       </a>
       <a class="card" href="https://aityping.michaelsavastano.com/" target="_blank" rel="noopener">
         <span class="idx">04</span>
         <span class="arrow">↗</span>
         <h3>AI Typing Tutor</h3>
-        <p>An AI typing tutor that generates personalized lessons from your own typing data — live WPM sparklines and a per-key accuracy heatmap.</p>
+        <p>A typing tutor where Gemini reads your per-key error data and generates drills that target your weakest keys — backed by live WPM sparklines and an accuracy heatmap.</p>
         <div class="tags"><span class="tag">Next.js</span><span class="tag">Firebase</span><span class="tag">Gemini</span><span class="tag">Firestore</span></div>
       </a>
     </div>
@@ -265,6 +316,13 @@
 </footer>
 
 <script>
+  // theme toggle — flips data-theme and persists choice
+  document.getElementById('themeToggle').addEventListener('click', () => {
+    const next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+  });
+
   // pointer-follow glow on cards
   document.querySelectorAll('.card').forEach(c => {
     c.addEventListener('mousemove', e => {
