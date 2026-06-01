@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Michael Savastano — AI Apps</title>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg-elev: #111111;
+    --border: #1f1f1f;
+    --border-hover: #333333;
+    --fg: #ededed;
+    --fg-dim: #a1a1a1;
+    --fg-faint: #6b6b6b;
+    --accent: #ffffff;
+    --tag-bg: #161616;
+    --radius: 10px;
+    --max: 1100px;
+    --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --mono: "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- Nav ---------- */
+  nav {
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: saturate(180%) blur(12px);
+    background: rgba(10,10,10,0.72);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 60px;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 600; letter-spacing: -0.01em; }
+  .brand .dot {
+    width: 22px; height: 22px; border-radius: 6px;
+    background: linear-gradient(135deg, #fff 0%, #888 100%);
+  }
+  .nav-links { display: flex; align-items: center; gap: 28px; }
+  .nav-links a { color: var(--fg-dim); font-size: 14px; transition: color .15s; }
+  .nav-links a:hover { color: var(--fg); }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--accent); color: #0a0a0a;
+    font-size: 14px; font-weight: 600;
+    padding: 8px 16px; border-radius: 8px;
+    border: 1px solid var(--accent);
+    transition: opacity .15s, transform .05s;
+  }
+  .btn:hover { opacity: 0.88; }
+  .btn:active { transform: translateY(1px); }
+  .btn.ghost { background: transparent; color: var(--fg); border-color: var(--border-hover); }
+  .btn.ghost:hover { border-color: var(--fg-dim); opacity: 1; }
+  @media (max-width: 640px) { .nav-links a:not(.btn) { display: none; } }
+
+  /* ---------- Hero ---------- */
+  header.hero {
+    position: relative;
+    padding: 130px 0 110px;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero::before {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(600px 300px at 50% -10%, rgba(255,255,255,0.06), transparent 70%);
+    pointer-events: none;
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(circle at 50% 30%, black, transparent 75%);
+    opacity: 0.4;
+    pointer-events: none;
+  }
+  .hero .wrap { position: relative; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 13px; color: var(--fg-dim);
+    background: var(--bg-elev); border: 1px solid var(--border);
+    padding: 6px 14px; border-radius: 999px; margin-bottom: 28px;
+  }
+  .pill .live { width: 7px; height: 7px; border-radius: 50%; background: #34d399; box-shadow: 0 0 8px #34d399; }
+  h1 {
+    font-size: clamp(40px, 6.5vw, 76px);
+    line-height: 1.02; letter-spacing: -0.03em; font-weight: 700;
+    max-width: 760px;
+  }
+  h1 .grad {
+    background: linear-gradient(180deg, #fff 30%, #888 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .sub {
+    margin-top: 24px; font-size: 19px; color: var(--fg-dim);
+    max-width: 560px;
+  }
+  .hero-cta { margin-top: 36px; display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-cta .btn { padding: 11px 22px; font-size: 15px; }
+
+  /* ---------- Section heading ---------- */
+  .section { padding: 90px 0; }
+  .section-head { display: flex; align-items: end; justify-content: space-between; margin-bottom: 40px; }
+  .section-head h2 {
+    font-size: 30px; letter-spacing: -0.02em; font-weight: 650;
+  }
+  .section-head p { color: var(--fg-faint); font-size: 14px; font-family: var(--mono); }
+
+  /* ---------- Gallery ---------- */
+  .grid {
+    display: grid; gap: 18px;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } }
+  .card {
+    display: block; position: relative;
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 26px;
+    transition: border-color .18s, transform .18s, background .18s;
+    overflow: hidden;
+  }
+  .card::after {
+    content: ""; position: absolute; inset: 0;
+    background: radial-gradient(400px 200px at var(--mx,50%) 0%, rgba(255,255,255,0.05), transparent 60%);
+    opacity: 0; transition: opacity .2s; pointer-events: none;
+  }
+  .card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+  .card:hover::after { opacity: 1; }
+  .card .idx { font-family: var(--mono); font-size: 12px; color: var(--fg-faint); }
+  .card h3 { font-size: 20px; margin: 14px 0 8px; letter-spacing: -0.01em; }
+  .card p { color: var(--fg-dim); font-size: 14.5px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  .tag {
+    font-family: var(--mono); font-size: 11.5px; color: var(--fg-dim);
+    background: var(--tag-bg); border: 1px solid var(--border);
+    padding: 4px 9px; border-radius: 6px;
+  }
+  .card .arrow { position: absolute; top: 26px; right: 26px; color: var(--fg-faint); transition: color .18s, transform .18s; }
+  .card:hover .arrow { color: var(--fg); transform: translate(2px,-2px); }
+
+  /* ---------- CTA band ---------- */
+  .cta-band {
+    border: 1px solid var(--border); border-radius: 16px;
+    background: linear-gradient(180deg, #131313, #0c0c0c);
+    padding: 56px 40px; text-align: center;
+  }
+  .cta-band h2 { font-size: 32px; letter-spacing: -0.02em; }
+  .cta-band p { color: var(--fg-dim); margin: 12px auto 28px; max-width: 440px; }
+
+  /* ---------- Footer ---------- */
+  footer { border-top: 1px solid var(--border); padding: 40px 0; }
+  .foot-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+  footer .muted { color: var(--fg-faint); font-size: 13px; }
+  .foot-links { display: flex; gap: 22px; }
+  .foot-links a { color: var(--fg-dim); font-size: 13px; transition: color .15s; }
+  .foot-links a:hover { color: var(--fg); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-inner">
+    <a href="#" class="brand"><span class="dot"></span> Michael Savastano</a>
+    <div class="nav-links">
+      <a href="#work">Work</a>
+      <a href="#contact">Contact</a>
+      <a href="#contact" class="btn">Get in touch</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-grid"></div>
+  <div class="wrap">
+    <span class="pill"><span class="live"></span> Four apps, live now</span>
+    <h1>Small, <span class="grad">sharp</span> AI apps — built and shipped.</h1>
+    <p class="sub">A TV tracker, a private fiction library, a self-editing memory agent, and an AI typing tutor. Each one live, each one focused.</p>
+    <div class="hero-cta">
+      <a href="#work" class="btn">View the apps</a>
+      <a href="#contact" class="btn ghost">Get in touch →</a>
+    </div>
+  </div>
+</header>
+
+<section class="section" id="work">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Selected Works</h2>
+      <p>// 4 apps, live</p>
+    </div>
+    <div class="grid" id="grid">
+      <a class="card" href="https://traktapp.michaelsavastano.com/" target="_blank" rel="noopener">
+        <span class="idx">01</span>
+        <span class="arrow">↗</span>
+        <h3>TraktApp</h3>
+        <p>A TV show tracker built on Trakt OAuth. Log watch history, manage your watchlist, and surface trending shows so you never lose your place.</p>
+        <div class="tags"><span class="tag">Next.js</span><span class="tag">Trakt OAuth</span><span class="tag">Gemini</span><span class="tag">React 19</span></div>
+      </a>
+      <a class="card" href="https://storyvault.michaelsavastano.com/" target="_blank" rel="noopener">
+        <span class="idx">02</span>
+        <span class="arrow">↗</span>
+        <h3>StoryVault</h3>
+        <p>A private reading room for short fiction. Paste a link and it sets the type — clean, paginated reader for the stories you mean to get to.</p>
+        <div class="tags"><span class="tag">Next.js</span><span class="tag">Firebase</span><span class="tag">Gemini</span><span class="tag">Tailwind</span></div>
+      </a>
+      <a class="card" href="https://feedback.michaelsavastano.com/" target="_blank" rel="noopener">
+        <span class="idx">03</span>
+        <span class="arrow">↗</span>
+        <h3>Skill-Memory Agent</h3>
+        <p>A self-editing agent with three-tier markdown memory (system / active / archive). It rewrites its own skills each turn and isolates memory per user.</p>
+        <div class="tags"><span class="tag">Python</span><span class="tag">FastAPI</span><span class="tag">Gemini</span><span class="tag">Agents</span></div>
+      </a>
+      <a class="card" href="https://aityping.michaelsavastano.com/" target="_blank" rel="noopener">
+        <span class="idx">04</span>
+        <span class="arrow">↗</span>
+        <h3>AI Typing Tutor</h3>
+        <p>An AI typing tutor that generates personalized lessons from your own typing data — live WPM sparklines and a per-key accuracy heatmap.</p>
+        <div class="tags"><span class="tag">Next.js</span><span class="tag">Firebase</span><span class="tag">Gemini</span><span class="tag">Firestore</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="contact">
+  <div class="wrap">
+    <div class="cta-band">
+      <h2>Want one of these built for you?</h2>
+      <p>From prototype to production. Let's talk about what you're trying to ship.</p>
+      <a href="mailto:millhouse5000@gmail.com" class="btn">Get in touch</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-inner">
+    <span class="muted">© 2026 Michael Savastano. Built dark.</span>
+    <div class="foot-links">
+      <a href="#">GitHub</a>
+      <a href="#">X</a>
+      <a href="#">LinkedIn</a>
+      <a href="mailto:millhouse5000@gmail.com">Email</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // pointer-follow glow on cards
+  document.querySelectorAll('.card').forEach(c => {
+    c.addEventListener('mousemove', e => {
+      const r = c.getBoundingClientRect();
+      c.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+    });
+  });
+</script>
+</body>
+</html>
