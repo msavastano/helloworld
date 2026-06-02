@@ -85,6 +85,8 @@
   .nav-links { display: flex; align-items: center; gap: 28px; }
   .nav-links a { color: var(--fg-dim); font-size: 14px; transition: color .15s; }
   .nav-links a:hover { color: var(--fg); }
+  .nav-links a.btn { color: var(--accent-fg); }
+  .nav-links a.btn.ghost { color: var(--fg); }
   .btn {
     display: inline-flex; align-items: center; gap: 8px;
     background: var(--accent); color: var(--accent-fg);
@@ -97,6 +99,8 @@
   .btn:active { transform: translateY(1px); }
   .btn.ghost { background: transparent; color: var(--fg); border-color: var(--border-hover); }
   .btn.ghost:hover { border-color: var(--fg-dim); opacity: 1; }
+  :root[data-theme="light"] .btn.ghost { border-color: var(--fg-faint); }
+  :root[data-theme="light"] .btn.ghost:hover { border-color: var(--fg); }
   .theme-toggle {
     display: inline-flex; align-items: center; justify-content: center;
     width: 36px; height: 36px; border-radius: 8px;
@@ -247,7 +251,7 @@
   <div class="wrap">
     <span class="pill"><span class="live"></span> Five apps, live now</span>
     <h1>Small, <span class="grad">sharp</span> AI apps — built and shipped.</h1>
-    <p class="sub">A TV tracker, a private fiction library, a self-editing memory agent, and an AI typing tutor. Each one live, each one focused.</p>
+    <p class="sub">A TV tracker, a private fiction library, a self-editing memory agent, an AI typing tutor, and a time-travel map explorer. Each one live, each one focused.</p>
     <div class="hero-cta">
       <a href="#work" class="btn">View the apps</a>
       <a href="#contact" class="btn ghost">Get in touch →</a>
